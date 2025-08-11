@@ -1,0 +1,40 @@
+.round-image {
+    border-radius: 50%;
+    width: 300px; /* Задайте желаемую ширину */
+    height: 300px; /* Задайте желаемую высоту */
+}
+
+
+{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+
+}
+
+.body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+}
+
+.skills {
+    width: 100%;
+    width: 700px;
+    padding: 0 20px;
+}
+
+.p {
+    color: #cccccc;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 15px 0;
+}
+.skill-bar{
+    height: 12px;
+    background: white;
+    border-radius: 4px;
+}
+
