@@ -5,19 +5,17 @@
 }
 
 
-{
- margin: 0;
- padding: 0;
- box-sizing: border-box;
+.container {
+    width: 200px;
+    height:100px;
+    background-color: #ddd;
+    position: relative; }
 
-}
 
-.body {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
+.round-image {
+    margin:30px auto;
+    padding:20px;
+    box-sizing: border-box;
 }
 
 .skills {
@@ -32,9 +30,119 @@
     font-weight: 700;
     margin: 15px 0;
 }
-.skill-bar{
+
+.skill-ba {
     height: 12px;
     background: white;
     border-radius: 4px;
 }
+.skills-persentage {
+    height: 12px;
+    background: #852222;
+    border-radius: 4px;
+    position: relative;
+}
+.skills-persentage:before {
+    content: attr(a);
+    position: absolute;
+    background: #7e1e1e;
+    padding: 1px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    top: -30px;
+    right: 0px;
+    transform: translateX(50%);
+}
+.skills-persentage:after {
+        content: "";
+    |position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #1ca391;
+    top: 13px;
+    right: 0px;
+    transform: translateX(50%); rotate: 45deg;
+}
+
+
+.frame {
+    width: 250px;
+    height: 250px;
+    border: 15px solid #000000;
+    background: #000000;
+    margin: auto;
+    padding: 8px -1px;
+    border-radius: 200px;
+
+}
+
+:link:hover {
+    outline: dotted red;
+    background-color: red;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.element {
+    animation: slideIn 1s ease-in-out; /* Пример анимации */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+img {
+    transition: border 0.3s ease;
+    border: 2px solid transparent;
+}
+
+img:hover {
+    border: 2px solid red;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f2f2;
+}
+
+.flex-item {
+    background-color: #abc;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+}
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
+
+.grid-item {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+}
+
+.img {
+    font-size: clamp(1.5rem,4vw, 3rem);
+}
+
+.img {
+    max-width: 100%;
+    height: auto;
+}
+
+
 

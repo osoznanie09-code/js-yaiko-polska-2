@@ -1,4 +1,62 @@
 :link:hover {
     outline: dotted red;
+    background-color: red;
 }
 
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.element {
+    animation: slideIn 1s ease-in-out;
+}
+
+img {
+    transition: border 0.3s ease;
+    border: 2px solid transparent;
+}
+
+img:hover {
+    border: 2px solid red;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f2f2;
+}
+
+.flex-item {
+    background-color: #abc;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+}
+
+.grid
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
+
+.grid-item {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+}
+
+.img {
+    font-size: clamp(1.5rem,4vw, 3rem);
+}
+
+.img {
+    max-width: 100%;
+    height: auto;
+}
