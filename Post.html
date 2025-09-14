@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мини блог - Пост</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Мини блог</h1>
+        <nav>
+            <ul>
+                <li><a href="Index.html">Посты</a></li>
+                <li><a href="Users.html">Пользователи</a></li>
+            </ul>
+        </nav>
+    </header>
+
+<main>
+    <a href="Index.html" class="btn back-btn">Назад к постам</a>
+    <div id="loader" class="loader">Загрузка....</div>
+    <div id="post-container"></div>
+    <div id="comment-container" class="comment-container"></div>
+    <div id="error-message" class="error" style="display: none;"></div>
+</main>
+
+<footer>
+    <p>2025 Mini Blog by z1tex666</p>
+</footer>
+    <script src="script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+
+        // Исправлено условие
+        if (!postId) {
+            showError('error-message', 'Пост не найден');
+            return;
+        }
+
+        loadPostAndComments(postId);
+
+        async function loadPostAndComments(id) {
+            showLoader('loader');
+            hideError('error-message');
+
+            try {
+                const [post, comments] = await Promise.all([
+                    fetchData(`/posts/${id}`),
+                    fetchData(`/posts/${id}/comments`)
+                ]);
+
+                displayPost(post);
+                displayComments(comments);
+            } catch (error) {
+                showError('error-message', 'Не удалось загрузить данные. Пожалуйста, попробуйте позже.');
+            } finally {
+                hideLoader('loader');
+            }
+        }
+
+        function displayPost(post) {
+            const postContainer = document.getElementById('post-container');
+            postContainer.innerHTML = `
+            <article class="card post-detail">
+                <h2>${post.title}</h2>
+                <p>${post.body}</p>
+            </article>
+        `;
+        }
+
+        function displayComments(comments) {
+            const commentContainer = document.getElementById('comment-container');
+
+            if (comments.length === 0) {
+                commentContainer.innerHTML = '<p>Комментариев пока нет.</p>';
+                return;
+            }
+
+            commentContainer.innerHTML = `
+            <h3>Комментарии (${comments.length})</h3>
+            ${comments.map(comment => `
+                <div class="comment">
+                    <h4>${comment.name} <span>(${comment.email})</span></h4>
+                    <p>${comment.body}</p>
+                </div>
+            `).join('')}
+        `;
+        }
+    });
+</script>
+</body>
+</html>
+
