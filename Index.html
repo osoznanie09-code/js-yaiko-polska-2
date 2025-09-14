@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мини блог - Главная</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+      <h1> Мини блог</h1>
+       <nav>
+          <ul>
+              <li><a href="Index.html" class="active">Посты</a></li>
+              <li><a href="Users.html">Пользователи</a></li>
+          </ul>
+       </nav>
+    </header>
+
+    <main>
+    <h2> Последние посты </h2>
+    <div id="loader" class="loader"> Загрузка....</div>
+    <div id="post-container" class="post-container"></div>
+    <div id="pagination" class="pagination"></div>
+    <div id="error-message" class="error" style="display: none;"></div>
+    </main>
+
+<footer>
+    <p> 2025 Mini Blog by z1tex666</p>
+</footer>
+
+    <script src="script.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const postsPerPage = 10;
+        let currentPage = 1;
+        let allPosts = [];
+
+        loadPosts();
+
+        async function loadPosts() {
+            showLoader('loader');
+            hideError('error-message');
+
+            try {
+                const posts = await fetchData('/posts');
+                allPosts = posts;
+                displayPosts(currentPage, posts);
+                setupPagination(posts.length);
+            } catch (error) {
+                showError('error-message', 'Не удалось загрузить посты. Пожалуйста, попробуйте позже.');
+            } finally {
+                hideLoader('loader');
+            }
+        }
+
+        function displayPosts(page, posts) {
+            const postContainer = document.getElementById('post-container');
+            const startIndex = (page - 1) * postsPerPage;
+            const paginatedPosts = posts.slice(startIndex, startIndex + postsPerPage);
+
+            postContainer.innerHTML = paginatedPosts.map(post => `
+            <div class="card">
+                <h3>${post.title}</h3>
+                <p>${post.body.substring(0, 100)}...</p>
+                <a href="post.html?id=${post.id}" class="btn">Подробнее</a>
+            </div>
+        `).join('');
+        }
+
+        function setupPagination(totalPosts) {
+            const paginationContainer = document.getElementById('pagination');
+            const pageCount = Math.ceil(totalPosts / postsPerPage);
+
+            if (pageCount <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let paginationHtml = '';
+
+            if (currentPage > 1) {
+                paginationHtml += `<button class="pagination-btn" onclick="changePage(${currentPage - 1})">Назад</button>`;
+            }
+
+            for (let i = 1; i <= pageCount; i++) {
+                if (i === currentPage) {
+                    paginationHtml += `<button class="pagination-btn active" disabled>${i}</button>`;
+                } else {
+                    paginationHtml += `<button class="pagination-btn" onclick="changePage(${i})">${i}</button>`;
+                }
+            }
+
+            if (currentPage < pageCount) {
+                paginationHtml += `<button class="pagination-btn" onclick="changePage(${currentPage + 1})">Вперед</button>`;
+            }
+
+            paginationContainer.innerHTML = paginationHtml;
+        }
+
+        window.changePage = function(page) {
+            currentPage = page;
+            displayPosts(currentPage, allPosts);
+            setupPagination(allPosts.length);
+            window.scrollTo(0, 0);
+        };
+    });
+    </script>
+</body>
+</html>
